@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Agri Store</title>
+</head>
+<body>
+
+    <h1>🌾 Agri Store Products</h1>
+
+    {% for product in products %}
+        <h2>{{ product.name }}</h2>
+        <p><strong>Price:</strong> ₹{{ product.price }}</p>
+        <p><strong>Stock:</strong> {{ product.stock }}</p>
+        <p>{{ product.description }}</p>
+        <hr>
+    {% endfor %}
+
+</body>
+</html>

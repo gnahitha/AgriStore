@@ -1,0 +1,166 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>Checkout</title>
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+</head>
+
+<body>
+
+<div class="checkout-container">
+
+    <h1>🛒 Secure Checkout</h1>
+
+    <div class="checkout-grid">
+
+        <!-- Left Side -->
+
+        <div class="checkout-form">
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+                <div class="checkout-card">
+
+                    <h2>👤 Contact Information</h2>
+
+                    <label>Full Name</label>
+
+                    <input
+                        type="text"
+                        name="customer_name"
+                        placeholder="Enter your full name"
+                        required>
+
+                    <label>Phone Number</label>
+
+                    <input
+                        type="text"
+                        name="phone"
+                        placeholder="Enter mobile number"
+                        required>
+
+                </div>
+
+                <div class="checkout-card">
+
+                    <h2>📍 Delivery Address</h2>
+
+                    <label>Complete Address</label>
+
+                    <textarea
+                        name="address"
+                        rows="5"
+                        placeholder="House No, Street, Village/City, District, State, PIN Code"
+                        required></textarea>
+
+                </div>
+
+                <div class="checkout-card">
+
+                    <h2>💳 Payment Method</h2>
+
+                    <label class="payment-option">
+
+                        <input
+                            type="radio"
+                            checked>
+
+                        Cash on Delivery (COD)
+
+                    </label>
+
+                </div>
+
+                <button
+                    type="submit"
+                    class="place-order-btn">
+
+                    🛍 Place Order
+
+                </button>
+
+            </form>
+
+        </div>
+
+        <!-- Right Side -->
+
+        <div class="order-summary">
+
+            <div class="checkout-card">
+
+                <h2>🧾 Order Summary</h2>
+
+                <hr>
+
+                <p>
+
+                    <strong>Total Amount</strong>
+
+                    <span class="summary-price">
+
+                        ₹{{ total }}
+
+                    </span>
+
+                </p>
+
+                <hr>
+
+                <p>
+
+                    Delivery :
+                    <span style="color:green;">
+                        FREE
+                    </span>
+
+                </p>
+
+                <p>
+
+                    Payment :
+                    Cash on Delivery
+
+                </p>
+
+                <hr>
+
+                <h3>
+
+                    Grand Total
+
+                    <span class="summary-price">
+
+                        ₹{{ total }}
+
+                    </span>
+
+                </h3>
+
+            </div>
+
+            <a href="/cart/">
+
+                <button class="back-cart-btn">
+
+                    ← Back to Cart
+
+                </button>
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

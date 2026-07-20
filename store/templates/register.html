@@ -1,0 +1,105 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>Create Account - AgriStore</title>
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+</head>
+
+<body class="auth-body">
+
+<div class="auth-container">
+
+    <div class="auth-card">
+
+        <h1>🌾 AgriStore</h1>
+
+        <h2>Create Account</h2>
+
+        <p class="auth-subtitle">
+
+            Join AgriStore today
+
+        </p>
+
+        {% if messages %}
+
+            {% for message in messages %}
+
+                <div class="auth-error">
+
+                    {{ message }}
+
+                </div>
+
+            {% endfor %}
+
+        {% endif %}
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <label>👤 Username</label>
+
+            <input
+                type="text"
+                name="username"
+                placeholder="Choose username"
+                required>
+
+            <label>📧 Email</label>
+
+            <input
+                type="email"
+                name="email"
+                placeholder="Enter email"
+                required>
+
+            <label>🔒 Password</label>
+
+            <input
+                type="password"
+                name="password"
+                placeholder="Create password"
+                required>
+
+            <label>🔐 Confirm Password</label>
+
+            <input
+                type="password"
+                name="confirm_password"
+                placeholder="Confirm password"
+                required>
+
+            <button type="submit" class="auth-btn">
+
+                Create Account
+
+            </button>
+
+        </form>
+
+        <p class="auth-link">
+
+            Already have an account?
+
+            <a href="/login/">
+
+                Login
+
+            </a>
+
+        </p>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

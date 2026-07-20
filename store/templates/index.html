@@ -1,0 +1,462 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agri Store</title>
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+<h2>🌾 Agriculture Products</h2>
+<div class="search-container">
+
+    <span class="search-icon">🔍</span>
+
+    <input
+        type="text"
+        id="searchBox"
+        placeholder="Search products..."
+        onkeyup="searchProducts()"
+        autocomplete="off">
+
+    <button class="icon-btn" title="Voice Search">
+        🎤
+    </button>
+
+    <button class="icon-btn" title="Image Search">
+        📷
+    </button>
+
+</div>
+<div class="sidebar">
+        <div class="logo" onclick="toggleSidebar()">
+
+                ☰ <span>AgriStore</span>
+
+        </div>
+
+    {% if user.is_authenticated %}
+
+    <div class="sidebar-profile">
+
+        <img src="{% static 'images/profile.png' %}" alt="Profile">
+
+        <h4>{{ user.username }}</h4>
+
+    </div>
+
+    {% endif %}
+
+    <a href="/">
+        🏠 Home
+    </a>
+
+    <a href="#products">
+        🛒 Products
+    </a>
+
+    <a href="/wishlist/">
+        ❤️ Wishlist
+    </a>
+
+    <a href="/cart/">
+        🛍 Cart ({{ cart_count }})
+    </a>
+
+    <a href="/order-history/">
+        📦 My Orders
+    </a>
+
+    <a href="/chatbot/">
+        🤖 AI Assistant
+    </a>
+
+    {% if user.is_authenticated %}
+
+    <a href="#">
+        👤 Profile
+    </a>
+
+    <a href="/logout/">
+        🚪 Logout
+    </a>
+
+    {% else %}
+
+    <a href="/login/">
+        🔑 Login
+    </a>
+
+    <a href="/register/">
+        📝 Register
+    </a>
+
+    {% endif %}
+
+</div>
+<section class="hero">
+
+    <div class="slider">
+        <img id="banner"
+             src="{% static 'images/banner1.jpg' %}"
+             alt="Agriculture Banner">
+    </div>
+
+    <h2>Welcome to AgriStore 🌾</h2>
+
+    <p>Fresh Products Directly From Farmers</p>
+
+    <a href="#products">
+        <button>Shop Now</button>
+    </a>
+
+</section>
+
+
+
+<section class="featured">
+
+    <h2>🔥 Featured Products</h2>
+
+    <div class="featured-products">
+
+        <div class="featured-card">
+
+            <img src="{% static 'images/rice.jpg' %}" alt="Rice">
+
+            <h3>Premium Rice</h3>
+
+            <p class="offer">20% OFF</p>
+
+        </div>
+
+        <div class="featured-card">
+
+            <img src="{% static 'images/seeds.jpg' %}" alt="Seeds">
+
+            <h3>Hybrid Seeds</h3>
+
+            <p class="offer">Best Seller</p>
+
+        </div>
+
+        <div class="featured-card">
+
+            <img src="{% static 'images/fertilizer.jpg' %}" alt="Fertilizer">
+
+            <h3>Organic Fertilizer</h3>
+
+            <p class="offer">New Arrival</p>
+
+        </div>
+
+        <div class="featured-card">
+
+            <img src="{% static 'images/pesticide.jpg' %}" alt="Pesticide">
+
+            <h3>Premium Pesticide</h3>
+
+            <p class="offer">10% OFF</p>
+
+        </div>
+
+    </div>
+
+</section>    
+    <h2>Welcome to AgriStore 🌾</h2>
+
+    <p>
+        Fresh Products Directly From Farmers
+    </p>
+
+    <a href="#products">
+
+        <button>
+            Shop Now
+        </button>
+
+    </a>
+
+</section>
+
+<hr>
+<section class="shop-category">
+
+    <h2>🌱 Shop By Category</h2>
+
+    <div class="category-cards">
+
+        <div class="category-card"
+             onclick="filterCategory('grains')">
+
+            <img src="{% static 'images/rice.jpg' %}" alt="Grains">
+
+            <h3>Grains</h3>
+
+        </div>
+
+        <div class="category-card"
+             onclick="filterCategory('seeds')">
+
+            <img src="{% static 'images/seeds.jpg' %}" alt="Seeds">
+
+            <h3>Seeds</h3>
+
+        </div>
+
+        <div class="category-card"
+             onclick="filterCategory('fertilizers')">
+
+            <img src="{% static 'images/fertilizer.jpg' %}" alt="Fertilizer">
+
+            <h3>Fertilizers</h3>
+
+        </div>
+
+        <div class="category-card"
+             onclick="filterCategory('pesticides')">
+
+            <img src="{% static 'images/pesticide.jpg' %}" alt="Pesticides">
+
+            <h3>Pesticides</h3>
+
+        </div>
+
+    </div>
+
+</section>
+<section class="deals">
+
+    <h2>🔥 Today's Deals</h2>
+
+    <div class="deal-products">
+
+        <div class="deal-card">
+
+            <span class="discount">30% OFF</span>
+
+            <img src="{% static 'images/rice.jpg' %}" alt="Rice">
+
+            <h3>Premium Rice</h3>
+
+            <p>
+                <del>₹70/kg</del>
+                <strong style="color:green;"> ₹50/kg</strong>
+            </p>
+
+        </div>
+
+        <div class="deal-card">
+
+            <span class="discount">20% OFF</span>
+
+            <img src="{% static 'images/fertilizer.jpg' %}" alt="Fertilizer">
+
+            <h3>Organic Fertilizer</h3>
+
+            <p>
+                <del>₹600</del>
+                <strong style="color:green;"> ₹500</strong>
+            </p>
+
+        </div>
+
+        <div class="deal-card">
+
+            <span class="discount">15% OFF</span>
+
+            <img src="{% static 'images/seeds.jpg' %}" alt="Seeds">
+
+            <h3>Hybrid Seeds</h3>
+
+            <p>
+                <del>₹140</del>
+                <strong style="color:green;"> ₹120</strong>
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+<section class="best-selling">
+
+    <h2>🏆 Best Selling Products</h2>
+
+    <div class="best-products">
+
+        <div class="best-card">
+
+            <img src="{% static 'images/rice.jpg' %}" alt="Rice">
+
+            <h3>Premium Rice</h3>
+
+            <p>⭐⭐⭐⭐⭐ (245 Reviews)</p>
+
+            <p><strong>₹50/kg</strong></p>
+
+        </div>
+
+        <div class="best-card">
+
+            <img src="{% static 'images/seeds.jpg' %}" alt="Seeds">
+
+            <h3>Hybrid Seeds</h3>
+
+            <p>⭐⭐⭐⭐⭐ (198 Reviews)</p>
+
+            <p><strong>₹120</strong></p>
+
+        </div>
+
+        <div class="best-card">
+
+            <img src="{% static 'images/fertilizer.jpg' %}" alt="Fertilizer">
+
+            <h3>Organic Fertilizer</h3>
+
+            <p>⭐⭐⭐⭐⭐ (180 Reviews)</p>
+
+            <p><strong>₹500</strong></p>
+
+        </div>
+
+    </div>
+
+</section>
+<h2 id="products">Agriculture Products</h2>
+
+
+<h2>Categories</h2>
+
+<div class="categories">
+
+    <button onclick="filterCategory('grains')">
+        Grains
+    </button>
+
+    <button onclick="filterCategory('seeds')">
+        Seeds
+    </button>
+
+    <button onclick="filterCategory('fertilizers')">
+        Fertilizers
+    </button>
+
+    <button onclick="filterCategory('pesticides')">
+        Pesticides
+    </button>
+
+    <button onclick="filterCategory('all')">
+        All
+    </button>
+
+</div>
+
+<div class="products">
+
+{% for product in products %}
+
+<div class="product" data-category="{{ product.category }}">
+    <a href="/add-to-wishlist/{{ product.id }}/" class="wishlist-icon">
+
+{% if product.id in wishlist_ids %}
+    ♥
+{% else %}
+    ♡
+{% endif %}
+
+</a>
+
+    <img src="/static/{{ product.image }}"
+         alt="{{ product.name }}">
+
+    <h3>{{ product.name }}</h3>
+
+    <p>
+
+⭐ {{ product.average_rating }}/5
+
+({{ product.review_count }} Reviews)
+
+</p>
+
+    {% if product.stock == 0 %}
+        <p style="color:red;">Out Of Stock</p>
+    {% else %}
+        <p style="color:green;">
+            In Stock ({{ product.stock }})
+        </p>
+    {% endif %}
+
+    <p><strong>Price:</strong> ₹{{ product.price }}</p>
+
+    <p>{{ product.description }}</p>
+
+      <div style="display:flex; gap:10px; justify-content:center;">
+
+    <a href="/add-to-cart/{{ product.id }}/">
+        <button>🛒 Add To Cart</button>
+    </a>
+
+
+</div>
+    <br><br>
+
+    <a href="/product-details/?product={{ product.name }}">
+        <button>View Details</button>
+    </a>
+
+</div>
+
+{% empty %}
+
+<h2>No Products Available</h2>
+
+{% endfor %}
+
+</div>
+<section class="benefits">
+
+    <h2>Why Choose Us?</h2>
+
+    <p>✓ Fresh Products</p>
+    <p>✓ Direct From Farmers</p>
+    <p>✓ Affordable Prices</p>
+    <p>✓ Fast Delivery</p>
+
+</section>
+
+<section class="contact">
+
+    <h2>Contact Us</h2>
+
+    <p>Email: agristore@gmail.com</p>
+
+    <p>Phone: +91 9123456780</p>
+
+    <p>Address: Andhra Pradesh, India</p>
+
+</section>
+
+<footer>
+
+    <p>© 2026 Agriculture Store</p>
+
+    <p>All Rights Reserved</p>
+
+</footer>
+
+<a href="/cart/">Cart</a>
+<script src="{% static 'js/script.js' %}"></script>
+
+</body>
+</html>
+
+
+
+
+

@@ -1,0 +1,87 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>Login - AgriStore</title>
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+</head>
+
+<body class="auth-body">
+
+<div class="auth-container">
+
+    <div class="auth-card">
+
+        <h1>🌾 AgriStore</h1>
+
+        <h2>Welcome Back 👋</h2>
+
+        <p class="auth-subtitle">
+            Login to continue shopping
+        </p>
+
+        {% if messages %}
+
+            {% for message in messages %}
+
+                <div class="auth-error">
+
+                    {{ message }}
+
+                </div>
+
+            {% endfor %}
+
+        {% endif %}
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <label>👤 Username</label>
+
+            <input
+                type="text"
+                name="username"
+                placeholder="Enter username"
+                required>
+
+            <label>🔒 Password</label>
+
+            <input
+                type="password"
+                name="password"
+                placeholder="Enter password"
+                required>
+
+            <button type="submit" class="auth-btn">
+
+                Login
+
+            </button>
+
+        </form>
+
+        <p class="auth-link">
+
+            Don't have an account?
+
+            <a href="/register/">
+
+                Create Account
+
+            </a>
+
+        </p>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

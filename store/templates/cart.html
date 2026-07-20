@@ -1,0 +1,185 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Shopping Cart</title>
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+</head>
+
+<body>
+
+<div class="cart-container">
+
+    <div class="cart-left">
+
+        <h1>🛒 Shopping Cart</h1>
+
+        {% for item in cart_items %}
+
+        <div class="cart-card">
+
+            <div class="cart-image">
+
+                <img src="/static/{{ item.product.image }}"
+                     width="150"
+                     height="120">
+
+            </div>
+
+            <div class="cart-details">
+
+                <h2>{{ item.product.name }}</h2>
+
+<p class="rating">
+⭐⭐⭐⭐⭐ <span>(4.8)</span>
+</p>
+                <p>{{ item.product.description }}</p>
+
+                <h3>₹{{ item.product.price }}</h3>
+
+                <p style="color:green;font-weight:bold;">
+    ✓ In Stock
+</p>
+
+<p style="color:#555;">
+    Free Delivery by Tomorrow
+</p>
+
+<p style="color:#ff6f00;">
+    10% Discount Available
+</p>
+
+                <p><strong>Quantity</strong></p>
+
+<div class="quantity-box">
+
+                    <a href="/decrease/{{ item.id }}/">
+                        <button>-</button>
+                    </a>
+
+                    <span>{{ item.quantity }}</span>
+
+                    <a href="/increase/{{ item.id }}/">
+                        <button>+</button>
+                    </a>
+
+                </div>
+
+                <br>
+
+                <a href="/remove/{{ item.id }}/">
+
+                    <button class="remove-btn">
+
+                        ❌ Remove
+
+                    </button>
+
+                </a>
+
+            </div>
+
+            <div class="subtotal">
+
+                <h2>
+
+                    ₹{{ item.subtotal }}
+
+                </h2>
+
+            </div>
+
+        </div>
+
+        {% empty %}
+
+        <h2>Your Cart is Empty.</h2>
+
+        {% endfor %}
+
+    </div>
+
+<div class="cart-right">
+
+    <div class="summary-card">
+
+        <h2>Order Summary</h2>
+
+        <hr>
+
+        <p>
+Subtotal ({{ cart_items|length }} Items)
+<span style="float:right;">
+₹{{ total }}
+</span>
+</p>
+
+<hr>
+
+<p>
+Delivery Charges
+<span style="float:right;color:green;">
+FREE
+</span>
+</p>
+
+<hr>
+
+<h2>
+Total
+<span style="float:right;">
+₹{{ total }}
+</span>
+</h2>
+
+        <hr>
+
+        <a href="/checkout/">
+
+            <button class="checkout-btn">
+🛒 Proceed to Checkout
+</button>
+<p style="text-align:center;color:gray;font-size:14px;">
+🔒 Secure Checkout
+</p>
+
+        </a>
+
+        <br><br>
+
+        <a href="/clear-cart/">
+
+            <button class="clear-btn">
+
+                🗑 Clear Cart
+
+            </button>
+
+        </a>
+
+        <br><br>
+
+        <a href="/">
+
+            <button class="continue-btn">
+
+                ← Continue Shopping
+
+            </button>
+
+        </a>
+
+    </div>
+
+</div>
+
+</div>
+
+</body>
+
+</html>    

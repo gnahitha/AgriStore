@@ -1,0 +1,169 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>My Orders</title>
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+</head>
+
+<body>
+
+<h1>📦 My Orders</h1>
+
+<div class="orders-container">
+
+{% for order in orders %}
+
+<div class="order-card">
+
+    {% if order.status == "Cancelled" %}
+    <div class="cancel-badge">
+        ❌ Cancelled
+    </div>
+    {% endif %}
+
+    <div class="order-top">
+
+        <div>
+            <h3>Order #{{ order.id }}</h3>
+            <p>{{ order.created_at }}</p>
+        </div>
+
+        <div class="order-price">
+            ₹{{ order.total_amount }}
+        </div>
+
+    </div>
+
+    <hr>
+
+    <div class="ordered-products">
+
+    {% for item in order.orderitem_set.all %}
+
+    <div class="ordered-product">
+
+        <img class="order-product-image"
+             src="/static/{{ item.product.image }}"
+             alt="{{ item.product.name }}">
+
+        <div class="ordered-info">
+
+            <h2>{{ item.product.name }}</h2>
+
+            <p class="rating">
+                ⭐ Product Rating
+            </p>
+
+            <p><strong>Quantity:</strong> {{ item.quantity }}</p>
+
+            <p><strong>Price:</strong> ₹{{ item.price }}</p>
+
+            <div class="delivery-address">
+
+                <h4>📍 Delivery Address</h4>
+
+                <p><strong>{{ order.customer_name }}</strong></p>
+
+                <p>{{ order.phone }}</p>
+
+                <p>{{ order.address }}</p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {% endfor %}
+
+    </div>
+
+    <div class="tracking">
+
+        <div class="step {% if order.status == 'Placed' or order.status == 'Packed' or order.status == 'Shipped' or order.status == 'Delivered' %}active{% endif %}">
+            📦
+            <p>Placed</p>
+        </div>
+
+        <div class="line {% if order.status == 'Packed' or order.status == 'Shipped' or order.status == 'Delivered' %}active-line{% endif %}"></div>
+
+        <div class="step {% if order.status == 'Packed' or order.status == 'Shipped' or order.status == 'Delivered' %}active{% endif %}">
+            📦
+            <p>Packed</p>
+        </div>
+
+        <div class="line {% if order.status == 'Shipped' or order.status == 'Delivered' %}active-line{% endif %}"></div>
+
+        <div class="step {% if order.status == 'Shipped' or order.status == 'Delivered' %}active{% endif %}">
+            🚚
+            <p>Shipped</p>
+        </div>
+
+        <div class="line {% if order.status == 'Delivered' %}active-line{% endif %}"></div>
+
+        <div class="step {% if order.status == 'Delivered' %}active{% endif %}">
+            ✅
+            <p>Delivered</p>
+        </div>
+
+    </div>
+
+    <div class="order-buttons">
+
+        <a href="/buy-again/{{ order.orderitem_set.first.product.id }}/">
+            <button class="buy-again-btn">
+                🛒 Buy Again
+            </button>
+        </a>
+
+        {% if order.status == "Placed" or order.status == "Packed" %}
+        <a href="/cancel-order/{{ order.id }}/">
+            <button class="cancel-btn">
+                ❌ Cancel Order
+            </button>
+        </a>
+        {% endif %}
+        <a href="tel:{{ item.product.seller_phone }}">
+
+            <button class="contact-btn">
+
+                 📞 Contact Seller
+
+            </button>
+
+        </a>
+    </div>
+
+</div>
+
+{% empty %}
+
+<center>
+
+    <h2>No Orders Yet 📦</h2>
+
+</center>
+
+{% endfor %}
+
+</div>
+
+<br>
+
+<center>
+
+<a href="/">
+
+<button>Continue Shopping</button>
+
+</a>
+
+</center>
+
+</body>
+</html>

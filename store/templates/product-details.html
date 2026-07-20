@@ -1,0 +1,121 @@
+ {% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>{{ product.name }}</title>
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+</head>
+
+<body>
+
+<h1>{{ product.name }}</h1>
+<p>
+
+⭐ {{ product.average_rating }}/5
+
+({{ product.review_count }} Reviews)
+
+</p>
+
+<img src="/static/{{ product.image }}"
+     width="300"
+     height="220"
+     alt="{{ product.name }}">
+
+<h2>Price: ₹{{ product.price }}</h2>
+
+{% if product.stock == 0 %}
+<p style="color:red;">Out Of Stock</p>
+{% else %}
+<p style="color:green;">Stock Available: {{ product.stock }}</p>
+{% endif %}
+
+<h3>Description</h3>
+
+<p>{{ product.description }}</p>
+
+<br>
+
+<button onclick="addToCart('{{ product.name }}', '{{ product.price }}')">
+    Add To Cart
+</button>
+<hr>
+
+<h2>Write a Review</h2>
+
+<form method="POST">
+    {% csrf_token %}
+
+    <label>Your Name:</label><br>
+    <input type="text" name="name" required><br><br>
+
+    <label>Rating:</label><br>
+    <select name="rating" required>
+        <option value="5">⭐⭐⭐⭐⭐ (5)</option>
+        <option value="4">⭐⭐⭐⭐ (4)</option>
+        <option value="3">⭐⭐⭐ (3)</option>
+        <option value="2">⭐⭐ (2)</option>
+        <option value="1">⭐ (1)</option>
+    </select>
+
+    <br><br>
+
+    <label>Comment:</label><br>
+    <textarea
+        name="comment"
+        rows="4"
+        cols="40"
+        required>
+    </textarea>
+
+    <br><br>
+
+    <button type="submit">
+        Submit Review
+    </button>
+
+</form>
+
+<hr>
+
+<h2>Customer Reviews</h2>
+
+{% for review in reviews %}
+
+<div style="border:1px solid #ccc; padding:10px; margin:10px 0;">
+
+    <strong>{{ review.name }}</strong>
+
+    <br>
+
+    Rating: {{ review.rating }}/5
+
+    <br><br>
+
+    {{ review.comment }}
+
+</div>
+
+{% empty %}
+
+<p>No reviews yet.</p>
+
+{% endfor %}
+<br><br>
+
+<a href="/">
+    <button>Back To Home</button>
+</a>
+
+<script src="{% static 'js/script.js' %}"></script>
+
+</body>
+
+</html>

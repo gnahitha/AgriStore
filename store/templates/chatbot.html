@@ -1,0 +1,221 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>AI Farming Assistant</title>
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+</head>
+
+<body>
+
+<h2 class="chat-title">🤖 AI Farming Assistant</h2>
+
+<div class="chat-box">
+
+    <div id="chat-area"></div>
+
+    <div class="suggestions">
+
+<button onclick="quickAsk('How to grow rice?')">
+🌾 Grow Rice
+</button>
+
+<button onclick="quickAsk('Best fertilizer for maize')">
+🌽 Maize
+</button>
+
+<button onclick="quickAsk('How to control pests?')">
+🐛 Pest Control
+</button>
+
+<button onclick="quickAsk('Tomato diseases')">
+🍅 Tomato
+</button>
+
+<button onclick="quickAsk('Organic farming tips')">
+🌱 Organic
+</button>
+
+</div>
+            <div class="chat-input">
+
+                <input
+                type="text"
+                id="question"
+                placeholder="Ask about crops, fertilizers, pests..."
+                >
+
+                <button type="button" onclick="startVoice()">
+                🎤
+                </button>
+
+                <button type="button" onclick="sendMessage()">
+                Send
+                </button>
+
+            </div>
+   
+</div>
+
+<script>
+function getCookie(name) {
+
+    let cookieValue = null;
+
+    if (document.cookie && document.cookie !== "") {
+
+        const cookies = document.cookie.split(";");
+
+        for (let i = 0; i < cookies.length; i++) {
+
+            const cookie = cookies[i].trim();
+
+            if (cookie.substring(0, name.length + 1) === (name + "=")) {
+
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+
+                break;
+
+            }
+
+        }
+
+    }
+
+    return cookieValue;
+
+}    
+
+function quickAsk(question){
+
+    document.getElementById("question").value = question;
+
+    sendMessage();
+
+}
+
+function sendMessage(){
+
+    let message = document.getElementById("question").value;
+
+    if(message=="") return;
+
+       document.getElementById("chat-area").innerHTML += `
+<div class="user-chat">
+    <img src="/static/images/user.png" class="chat-avatar">
+
+    <div class="user-message">
+        ${message}
+    </div>
+</div>
+`;
+      let chat = document.getElementById("chat-area");
+
+chat.innerHTML += `
+<div class="ai-chat" id="typing">
+
+    <img src="/static/images/ai.png" class="chat-avatar">
+
+    <div class="typing-box">
+
+        <span></span>
+        <span></span>
+        <span></span>
+
+    </div>
+
+</div>
+`;
+
+chat.scrollTop = chat.scrollHeight;
+
+    fetch("/chatbot-response/", {
+
+    method: "POST",
+
+    headers: {
+
+        "Content-Type": "application/x-www-form-urlencoded",
+
+        "X-CSRFToken": getCookie("csrftoken")
+
+    },
+
+    body: "message=" + encodeURIComponent(message)
+
+})
+
+.then(response => response.json())
+
+.then(data => {
+         document.getElementById("typing").remove();
+
+        document.getElementById("chat-area").innerHTML += `
+<div class="ai-chat">
+    <img src="/static/images/ai.png" class="chat-avatar">
+
+    <div class="ai-message">
+        ${data.reply}
+    </div>
+</div>
+`;
+        
+
+        document.getElementById("question").value="";
+
+        let chat=document.getElementById("chat-area");
+
+        chat.scrollTop=chat.scrollHeight;
+
+    });
+
+}
+
+document.getElementById("question").addEventListener("keypress",function(event){
+
+    if(event.key==="Enter"){
+
+        sendMessage();
+
+    }
+
+});
+function startVoice(){
+
+    if(!('webkitSpeechRecognition' in window)){
+
+        alert("Speech Recognition is not supported in this browser.");
+
+        return;
+
+    }
+
+    let recognition = new webkitSpeechRecognition();
+
+    recognition.lang = "en-IN";
+
+    recognition.interimResults = false;
+
+    recognition.maxAlternatives = 1;
+
+    recognition.start();
+
+    recognition.onresult = function(event){
+
+        document.getElementById("question").value =
+        event.results[0][0].transcript;
+
+        sendMessage();
+
+    };
+
+}
+
+</script>
+
+</body>
+</html>
