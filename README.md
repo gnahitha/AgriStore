@@ -18,6 +18,9 @@ The project includes a user-friendly frontend and a Django backend for handling 
 * ⚙️ Django backend
 * 🗄️ SQLite database
 * 📱 Responsive web interface
+* 📦 Order tracking
+* 🤖 AI Farming Assistant
+* ❤️ Wishlist
 
 ## 🛠️ Technologies Used
 
@@ -105,18 +108,30 @@ Open the application in your browser:
 ```text
 http://127.0.0.1:8000/
 ```
-
 ## 📸 Screenshots
 
-Screenshots of the application will be added here.
+### 🏠 Home Page
+![AgriStore Home Page](screenshots/home.png)
+
+### 🛍️ Products
+![AgriStore Products](screenshots/products.png)
+
+### 🛒 Shopping Cart
+![AgriStore Shopping Cart](screenshots/cart.png)
+
+### ❤️ Wishlist
+![AgriStore Wishlist](screenshots/wishlist.png)
+
+### 🤖 AI Farming Assistant
+![AI Farming Assistant](screenshots/ai-assistant.png)
 
 ## 🎯 Future Improvements
 
 * Online payment integration
-* Order tracking
 * Product search and filtering
 * User authentication improvements
 * Deployment to a production server
+*  Production deployment and performance optimization
 
 ## 👩‍💻 Author
 
