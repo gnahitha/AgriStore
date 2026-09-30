@@ -24,14 +24,21 @@
         ❤️
     </a>
 
-    <img src="/static/{{ item.product.image }}" alt="{{ item.product.name }}">
-
-    <h3>{{ item.product.name }}</h3>
+    <a href="{% url 'product_details' item.product.id %}">
+        <img src="/static/{{ item.product.image }}" alt="{{ item.product.name }}">
+        <h3>{{ item.product.name }}</h3>
+    </a>
 
     <p><strong>₹{{ item.product.price }}</strong></p>
 
     <a href="/add-to-cart/{{ item.product.id }}/">
         <button>🛒 Add To Cart</button>
+    </a>
+
+    <br><br>
+
+    <a href="{% url 'product_details' item.product.id %}">
+        <button>View Details</button>
     </a>
 
 </div>

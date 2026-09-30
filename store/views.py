@@ -201,10 +201,18 @@ def order_history(request):
 def orders_page(request):
     return render(request, "orders.html")
 
-def product_details(request):
+def product_details(request, product_id=None):
+    lookup_id = product_id or request.GET.get("id")
     product_name = request.GET.get("product")
 
-    product = Product.objects.get(name=product_name)
+    if lookup_id:
+        product = get_object_or_404(Product, id=lookup_id)
+    elif product_name:
+        product = get_object_or_404(Product, name=product_name)
+        if request.method != "POST":
+            return redirect("product_details", product_id=product.id)
+    else:
+        return redirect("/")
     reviews = Review.objects.filter(product=product)
 
     product.review_count = reviews.count()
@@ -228,7 +236,7 @@ def product_details(request):
             comment=comment
         )
 
-    
+        return redirect("product_details", product_id=product.id)
 
     return render(
         request,
@@ -300,7 +308,7 @@ def remove_from_cart(request, cart_id):
     return redirect("/cart/")
 from django.contrib.auth.decorators import login_required
 
-@login_required
+@login_required(login_url="/login/")
 def wishlist_page(request):
 
     wishlist_items = Wishlist.objects.filter(user=request.user)
@@ -312,7 +320,7 @@ def wishlist_page(request):
     )
 from django.shortcuts import redirect
 
-@login_required
+@login_required(login_url="/login/")
 def add_to_wishlist(request, product_id):
 
     product = get_object_or_404(Product, id=product_id)

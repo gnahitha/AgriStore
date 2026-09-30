@@ -7,13 +7,18 @@
     <title>Agri Store</title>
 
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
 </head>
 <body>
+
+<button type="button" class="menu-toggle" id="menuToggle" onclick="toggleSidebar()" aria-label="Open navigation menu" aria-controls="sidebar" aria-expanded="false">☰</button>
 
 <h2>🌾 Agriculture Products</h2>
 <div class="search-container">
 
-    <span class="search-icon">🔍</span>
+    <button type="button" class="icon-btn search-icon" onclick="searchProducts()" title="Search" aria-label="Search products">
+        <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+    </button>
 
     <input
         type="text"
@@ -22,19 +27,20 @@
         onkeyup="searchProducts()"
         autocomplete="off">
 
-    <button class="icon-btn" title="Voice Search">
-        🎤
+    <button type="button" class="icon-btn" onclick="startVoiceSearch()" title="Voice Search" aria-label="Voice search">
+        <i class="fa-solid fa-microphone" aria-hidden="true"></i>
     </button>
 
-    <button class="icon-btn" title="Image Search">
-        📷
+    <button type="button" class="icon-btn" onclick="startImageSearch()" title="Image Search" aria-label="Search by image">
+        <i class="fa-solid fa-camera" aria-hidden="true"></i>
     </button>
+    <input type="file" id="imageSearchInput" accept="image/*" hidden>
 
 </div>
-<div class="sidebar">
-        <div class="logo" onclick="toggleSidebar()">
+<div class="sidebar" id="sidebar">
+        <div class="logo">
 
-                ☰ <span>AgriStore</span>
+                <span>AgriStore</span>
 
         </div>
 
@@ -54,7 +60,7 @@
         🏠 Home
     </a>
 
-    <a href="#products">
+    <a href="#products" onclick="closeSidebar()">
         🛒 Products
     </a>
 
@@ -97,6 +103,7 @@
     {% endif %}
 
 </div>
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
 <section class="hero">
 
     <div class="slider">
@@ -406,7 +413,7 @@
 </div>
     <br><br>
 
-    <a href="/product-details/?product={{ product.name }}">
+    <a href="{% url 'product_details' product.id %}">
         <button>View Details</button>
     </a>
 

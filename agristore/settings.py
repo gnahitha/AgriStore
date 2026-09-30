@@ -27,7 +27,17 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DEBUG", "False") == "True"
 
-ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")
+raw_hosts = os.getenv("ALLOWED_HOSTS", "localhost,127.0.0.1")
+ALLOWED_HOSTS = []
+for host in raw_hosts.split(","):
+    host = host.strip().replace("https://", "").replace("http://", "").split("/")[0]
+    if host and host not in ALLOWED_HOSTS:
+        ALLOWED_HOSTS.append(host)
+for host in ("localhost", "127.0.0.1"):
+    if host not in ALLOWED_HOSTS:
+        ALLOWED_HOSTS.append(host)
+
+LOGIN_URL = "/login/"
 
 
 # Application definition
